@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mensaje Enviado - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>¡Mensaje Enviado!</h2>
+        <p>Gracias por contactarnos</p>
+    </header>
+    
+    <div class="content" style="text-align: center;">
+        <p>Hemos recibido tu mensaje. Te responderemos a la mayor brevedad posible.</p>
+        <p style="margin-top: 2rem;">"Jehová oye cuando a él clamo." - Salmo 4:3</p>
+        <ul class="actions" style="margin-top: 2rem;">
+            <li><a href="{% url 'home' %}" class="button primary">Volver al Inicio</a></li>
+        </ul>
+    </div>
+</section>
+{% endblock %}

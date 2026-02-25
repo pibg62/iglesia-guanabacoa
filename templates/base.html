@@ -2,11 +2,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>{% block title %}Primera Iglesia Bautista de Guanabacoa{% endblock %}</title>
+    <title>Primera Iglesia Bautista de Guanabacoa</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     {% block extra_css %}{% endblock %}
 </head>
 <body class="is-preload">
@@ -20,23 +21,22 @@
         </header>
 
         <!-- Nav -->
-<nav id="nav">
-    <ul class="links">
-        <li {% if request.path == '/' %}class="active"{% endif %}>
-            <a href="{% url 'home' %}">Inicio</a>
-        </li>
-        <li {% if '/sermones' in request.path %}class="active"{% endif %}>
-            <a href="{% url 'sermon_list' %}">Sermones</a>
-        </li>
-        <li {% if '/eventos' in request.path %}class="active"{% endif %}>
-            <a href="{% url 'event_list' %}">Eventos</a>
-        </li>
-        <li {% if '/contacto' in request.path %}class="active"{% endif %}>
-            <a href="{% url 'contact' %}">Contacto</a>
-        </li>
-    </ul>
-    <!-- ... resto del menú ... -->
-</nav>
+        <nav id="nav">
+            <ul class="links">
+                <li {% if request.path == '/' %}class="active"{% endif %}>
+                    <a href="{% url 'home' %}">Inicio</a>
+                </li>
+                <li {% if '/sermones' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'sermon_list' %}">Sermones</a>
+                </li>
+                <li {% if '/eventos' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'event_list' %}">Eventos</a>
+                </li>
+                <li {% if '/contacto' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'contact:contact' %}">Contacto</a>
+                </li>
+            </ul>
+        </nav>
 
         <!-- Main -->
         <div id="main">
@@ -46,7 +46,7 @@
         <!-- Footer -->
         <footer id="footer">
             <section>
-                <form method="post" action="#">
+                <form method="post" action="{% url 'contact:contact' %}">
                     {% csrf_token %}
                     <div class="fields">
                         <div class="field">
@@ -78,14 +78,13 @@
                 </section>
                 <section>
                     <h3>Email</h3>
-                    <p><a href="#">iglesiabautistaguanabacoaajd@gmail.com</a></p>
+                    <p><a href="mailto:iglesiabautistaguanabacoaajd@gmail.com">iglesiabautistaguanabacoaajd@gmail.com</a></p>
                 </section>
                 <section>
                     <h3>Redes</h3>
-                    <ul class="icons">
-    <li><a href="https://www.facebook.com/pibg.cuba" target="_blank" rel="noopener noreferrer" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-    <!-- Si no tienes Twitter/Instagram, puedes eliminar esas líneas o dejarlas para el futuro -->
-</ul>
+                    <ul class="icons alt">                       
+                        <li><a href="https://facebook.com/pibg.cuba" target="_blank" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    </ul>
                 </section>
             </section>
         </footer>
