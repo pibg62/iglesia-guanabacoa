@@ -14,3 +14,7 @@ class HomeView(TemplateView):
             date__gte=datetime.now()
         ).order_by("date")[:3]
         return context
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"

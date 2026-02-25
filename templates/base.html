@@ -35,6 +35,9 @@
                 <li {% if '/contacto' in request.path %}class="active"{% endif %}>
                     <a href="{% url 'contact:contact' %}">Contacto</a>
                 </li>
+                <li {% if '/acerca-de' in request.path %}class="active"{% endif %}>
+                    <a href="{% url 'about' %}">Acerca de</a>
+                </li>
             </ul>
         </nav>
 
