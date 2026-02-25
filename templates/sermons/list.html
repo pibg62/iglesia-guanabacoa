@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sermones - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>Sermones</h1>
+        <p>Mensajes que transforman vidas</p>
+    </header>
+
+    <section class="posts">
+        {% for sermon in sermons %}
+        <article>
+            <header>
+                <span class="date">{{ sermon.date|date:"d F Y" }}</span>
+                <h2><a href="{% url 'sermon_detail' sermon.id %}">{{ sermon.title }}</a></h2>
+                <p>Predicador: {{ sermon.preacher }}</p>
+                {% if sermon.bible_text %}
+                <p>📖 {{ sermon.bible_text }}</p>
+                {% endif %}
+            </header>
+            {% if sermon.image %}
+            <a href="{% url 'sermon_detail' sermon.id %}" class="image fit"><img src="{{ sermon.image.url }}" alt="" /></a>
+            {% endif %}
+            <p>{{ sermon.description|truncatewords:30 }}</p>
+            <ul class="actions special">
+                <li><a href="{% url 'sermon_detail' sermon.id %}" class="button">Escuchar</a></li>
+            </ul>
+        </article>
+        {% empty %}
+        <article>
+            <header>
+                <h2>No hay sermones</h2>
+            </header>
+            <p>Próximamente estaremos subiendo nuevas predicaciones</p>
+        </article>
+        {% endfor %}
+    </section>
+
+    <!-- Paginación -->
+    {% if is_paginated %}
+    <footer>
+        <div class="pagination" style="text-align: center; padding: 2rem;">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="button small">&laquo; Primero</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="button small">Anterior</a>
+            {% endif %}
+
+            <span style="margin: 0 1rem;">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="button small">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="button small">Último &raquo;</a>
+            {% endif %}
+        </div>
+    </footer>
+    {% endif %}
+{% endblock %}

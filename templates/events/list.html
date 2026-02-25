@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Eventos - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+    <!-- Header de la página -->
+    <section class="main">
+        <header>
+            <h2>Próximos Eventos</h2>
+            <p>Únete a nosotros en estas actividades especiales</p>
+        </header>
+    </section>
+
+    <!-- Cada evento es una sección independiente -->
+    {% for event in events %}
+    <section class="main">
+        <header>
+            <h3>{{ event.title }}</h3>
+            <p>📅 {{ event.date|date:"l d F Y" }} • 🕒 {{ event.date|date:"H:i" }}</p>
+            <p>📍 {{ event.location }}</p>
+        </header>
+        <div class="content">
+            {% if event.image %}
+            <span class="image main">
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" />
+            </span>
+            {% endif %}
+            <p>{{ event.description|linebreaks }}</p>
+        </div>
+    </section>
+    {% empty %}
+    <section class="main">
+        <header>
+            <h3>No hay eventos programados</h3>
+            <p>Próximamente estaremos anunciando nuevas actividades</p>
+        </header>
+    </section>
+    {% endfor %}
+{% endblock %}

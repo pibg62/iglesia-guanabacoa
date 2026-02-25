@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ sermon.title }} - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+    <section class="main">
+        <header>
+            <h2>{{ sermon.title }}</h2>
+            <p>📅 {{ sermon.date|date:"d/m/Y" }} • 👤 {{ sermon.preacher }}</p>
+            {% if sermon.bible_text %}
+            <p>📖 {{ sermon.bible_text }}</p>
+            {% endif %}
+        </header>
+
+        <div class="content">
+            {% if sermon.image %}
+            <span class="image main">
+                <img src="{{ sermon.image.url }}" alt="{{ sermon.title }}" />
+            </span>
+            {% endif %}
+
+            <p>{{ sermon.description|linebreaks }}</p>
+
+            {% if sermon.audio_file %}
+            <hr />
+            <h3>Escucha el sermón</h3>
+            <audio controls style="width: 100%;">
+                <source src="{{ sermon.audio_file.url }}" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+            <p style="margin-top: 1rem;">
+                <a href="{{ sermon.audio_file.url }}" class="button small" download>Descargar audio</a>
+            </p>
+            {% endif %}
+        </div>
+
+        <footer>
+            <ul class="actions">
+                <li><a href="{% url 'sermon_list' %}" class="button">&larr; Volver a sermones</a></li>
+            </ul>
+        </footer>
+    </section>
+{% endblock %}

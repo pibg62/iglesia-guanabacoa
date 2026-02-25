@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+    <!-- Featured Post -->
+    <article class="post featured">
+        <header class="major">
+            <span class="date">Bienvenidos</span>
+            <h2><a href="{% url 'home' %}">Primera Iglesia Bautista<br />
+            de Guanabacoa</a></h2>
+            <p>"Porque donde están dos o tres congregados en mi nombre,<br />
+            allí estoy yo en medio de ellos" - Mateo 18:20</p>
+        </header>
+        <a href="{% url 'home' %}" class="image main"><img src="{% static 'images/iglesia.jpg' %}" alt="Iglesia" /></a>
+        <ul class="actions special">
+            <li><a href="#about" class="button large">Conócenos</a></li>  <!-- Link ancla -->
+        </ul>
+    </article>
+
+    <!-- Sección "Acerca de" (nueva) -->
+    <section id="about" class="post featured" style="margin-top: 2rem;">
+        <header class="major">
+            <h2>Acerca de nosotros</h2>
+            <p>Una iglesia con historia y fe desde 1905</p>
+        </header>
+        <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+            <p>La Primera Iglesia Bautista de Guanabacoa ha sido un faro de fe en la comunidad por más de 100 años. Nuestra misión es amar a Dios, amar al prójimo y hacer discípulos.</p>
+            <p><strong>Pastor:</strong> Samuel Reyes Guzmán</p>
+            <p><strong>Horarios:</strong></p>
+            <ul>
+                <li><strong>Escuela Dominical:</strong> 10:00 AM</li>
+                <li><strong>Culto Dominical:</strong> 11:00 AM</li>
+                <li><strong>Oración:</strong> Martes 9:00 AM</li>
+                <li><strong>Estudio Bíblico:</strong> Jueves 3:00 PM</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Posts (Sermones) -->
+    <section class="posts">
+        {% for sermon in latest_sermons %}
+        <article>
+            <header>
+                <span class="date">{{ sermon.date|date:"d F Y" }}</span>
+                <h2><a href="{% url 'sermon_detail' sermon.id %}">{{ sermon.title }}</a></h2>
+            </header>
+            {% if sermon.image %}
+            <a href="{% url 'sermon_detail' sermon.id %}" class="image fit"><img src="{{ sermon.image.url }}" alt="{{ sermon.title }}" /></a>
+            {% endif %}
+            <p>{{ sermon.description|truncatewords:30 }}</p>
+            <ul class="actions special">
+                <li><a href="{% url 'sermon_detail' sermon.id %}" class="button">Escuchar</a></li>
+            </ul>
+        </article>
+        {% empty %}
+        <article>
+            <header>
+                <h2>Próximamente</h2>
+            </header>
+            <p>Estaremos subiendo nuevos sermones pronto</p>
+        </article>
+        {% endfor %}
+    </section>
+
+    <!-- Eventos -->
+    <section class="posts">
+        <header style="width: 100%; text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #f4f4f4; padding-bottom: 1rem;">
+            <h2>Próximos Eventos</h2>
+        </header>
+        {% for event in upcoming_events %}
+        <article>
+            <header>
+                <span class="date">{{ event.date|date:"d F Y" }}</span>
+                <h2>{{ event.title }}</h2>
+                <p>{{ event.location }} • {{ event.date|date:"H:i" }}</p>
+            </header>
+            {% if event.image %}
+            <a href="#" class="image fit"><img src="{{ event.image.url }}" alt="{{ event.title }}" /></a>
+            {% endif %}
+            <p>{{ event.description|truncatewords:20 }}</p>
+            <ul class="actions special">
+                <li><a href="#" class="button">Detalles</a></li>
+            </ul>
+        </article>
+        {% empty %}
+        <article>
+            <header>
+                <h2>No hay eventos</h2>
+            </header>
+            <p>Próximamente estaremos anunciando nuevas actividades</p>
+        </article>
+        {% endfor %}
+    </section>
+
+    <!-- Ministerios -->
+    <section class="posts">
+        <header style="width: 100%; text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #f4f4f4; padding-bottom: 1rem;">
+            <h2>Nuestros Ministerios</h2>
+        </header>
+        <article>
+            <header>
+                <h2>Ministerio Infantil</h2>
+                <p>Sábados 10:00 AM</p>
+            </header>
+            <p>Clases bíblicas y actividades para niños de 3 a 12 años.</p>
+        </article>
+        <article>
+            <header>
+                <h2>Jóvenes</h2>
+                <p>Viernes 7:00 PM</p>
+            </header>
+            <p>Reuniones de jóvenes con enseñanza, música y compañerismo.</p>
+        </article>
+        <article>
+            <header>
+                <h2>Damas</h2>
+                <p>Miércoles 10:00 AM</p>
+            </header>
+            <p>Estudios bíblicos y actividades para damas.</p>
+        </article>
+        <article>
+            <header>
+                <h2>Varones</h2>
+                <p>Primer sábado de cada mes, 8:00 AM</p>
+            </header>
+            <p>Desayunos y estudios para varones.</p>
+        </article>
+    </section>
+{% endblock %}

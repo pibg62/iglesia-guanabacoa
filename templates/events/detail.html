@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ event.title }} - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+    <section class="main">
+        <header>
+            <h2>{{ event.title }}</h2>
+            <p style="color: #e44c65;">
+                📅 {{ event.date|date:"l d F Y" }} • 🕒 {{ event.date|date:"H:i" }} • 📍 {{ event.location }}
+            </p>
+        </header>
+
+        {% if event.image %}
+        <div class="image featured">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" style="width: 100%; max-height: 400px; object-fit: cover;">
+        </div>
+        {% endif %}
+
+        <div class="content">
+            <p>{{ event.description|linebreaks }}</p>
+            
+            <div style="margin-top: 3rem; padding: 2rem; background: rgba(0,0,0,0.02); border-radius: 8px;">
+                <h3>¿Cómo llegar?</h3>
+                <p><strong>Dirección:</strong> {{ event.location }}</p>
+                <!-- Aquí podrías integrar un mapa de Google Maps -->
+            </div>
+        </div>
+
+        <footer class="actions" style="margin-top: 2rem;">
+            <a href="{% url 'event_list' %}" class="button">&larr; Volver a eventos</a>
+        </footer>
+    </section>
+{% endblock %}

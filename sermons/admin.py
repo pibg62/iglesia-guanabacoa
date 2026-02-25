@@ -1,0 +1,10 @@
+from django.contrib import admin
+from .models import Sermon
+
+
+@admin.register(Sermon)
+class SermonAdmin(admin.ModelAdmin):
+    list_display = ("title", "preacher", "date")
+    list_filter = ("date", "preacher")
+    search_fields = ("title", "description")
+    date_hierarchy = "date"
