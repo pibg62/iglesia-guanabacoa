@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "events",  # Eventos
     "contact",  # Contacto
     "devocionales",
+    "members",
 ]
 
 MIDDLEWARE = [

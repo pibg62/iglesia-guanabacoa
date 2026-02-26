@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ member.full_name }} - Miembro{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>{{ member.full_name }}</h2>
+        <p>Detalles del miembro</p>
+    </header>
+    
+    <div class="content">
+        <!-- Foto y datos básicos en tarjeta superior -->
+        <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 3rem; flex-wrap: wrap;">
+            {% if member.photo %}
+            <div style="flex: 0 0 150px;">
+                <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 3px solid #e44c65; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                    <img src="{{ member.photo.url }}" alt="{{ member.full_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+            {% else %}
+            <div style="flex: 0 0 150px;">
+                <div style="width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, #f4f4f4, #ddd); display: flex; align-items: center; justify-content: center; border: 3px solid #e44c65;">
+                    <span style="font-size: 3rem; color: #999;">👤</span>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div style="flex: 1;">
+                <h3 style="margin: 0; color: #e44c65;">{{ member.full_name }}</h3>
+
+                 <p style="margin: 0.5rem 0; font-size: 1.2rem;">
+        {% if member.estado == 'miembro' %}
+        <span style="background: #27ae60; color: white; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.9rem;">Miembro</span>
+        {% else %}
+        <span style="background: #e44c65; color: white; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.9rem;">Congregado</span>
+        {% endif %}
+    </p>
+                <p style="color: #666;"><strong>Registrado:</strong> {{ member.registered_date|date:"d F Y" }}</p>
+            </div>
+        </div>
+        
+        <!-- Tarjetas de información en grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            
+            <!-- Tarjeta: Datos personales -->
+            <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
+                    <span style="margin-right: 0.5rem;">📋</span> Datos Personales
+                </h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666; width: 40%;"><strong>Nombre:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>1er Apellido:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.last_name1 }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>2do Apellido:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.last_name2|default:"—" }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>Nacimiento:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.birth_date|date:"d/m/Y" }}</td>
+                    </tr>
+                    <tr>
+    <td style="padding: 0.5rem 0; color: #666;"><strong>Bautismo:</strong></td>
+    <td style="padding: 0.5rem 0;">
+        {% if member.baptism_date %}
+            {{ member.baptism_date|date:"d/m/Y" }}
+        {% else %}
+            <span style="color: #999;">—</span>
+        {% endif %}
+    </td>
+</tr>
+                </table>
+            </div>
+            
+            <!-- Tarjeta: Contacto y ubicación -->
+            <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
+                    <span style="margin-right: 0.5rem;">📍</span> Contacto
+                </h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666; width: 40%;"><strong>Teléfono:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>Dirección:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.address }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>Reparto:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.reparto }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>Municipio:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.municipality }}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Tarjeta: Información adicional -->
+            <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
+                    <span style="margin-right: 0.5rem;">ℹ️</span> Información
+                </h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    {% if member.user %}
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666; width: 40%;"><strong>Usuario:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.user.username }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td style="padding: 0.5rem 0; color: #666;"><strong>Registro:</strong></td>
+                        <td style="padding: 0.5rem 0;">{{ member.registered_date|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                </table>
+                
+                {% if member.notes %}
+                <div style="margin-top: 1rem;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #333;">Notas</h4>
+                    <div style="background: white; padding: 1rem; border-radius: 4px; border-left: 3px solid #e44c65;">
+                        {{ member.notes|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'members:update' member.id %}" class="button primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span>✏️</span> Editar Miembro
+            </a>
+            <a href="{% url 'members:delete' member.id %}" class="button" style="background: #e44c65; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span>🗑️</span> Eliminar
+            </a>
+            <a href="{% url 'members:list' %}" class="button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <span>←</span> Volver al listado
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

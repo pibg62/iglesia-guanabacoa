@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}{% if object %}Editar{% else %}Nuevo{% endif %} Miembro{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>{% if object %}Editar{% else %}Nuevo{% endif %} Miembro</h2>
+        <p>Complete los datos del miembro</p>
+    </header>
+    
+    <div class="content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Mostrar errores generales -->
+            {% if form.non_field_errors %}
+                <div style="color: red; margin-bottom: 1rem;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <!-- Organizar campos en dos columnas -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- Columna izquierda -->
+                <div>
+                    <h3>Datos personales</h3>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.first_name.id_for_label }}">Nombre:</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <div style="color: red;">{{ form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.last_name1.id_for_label }}">Primer apellido:</label>
+                        {{ form.last_name1 }}
+                        {% if form.last_name1.errors %}
+                            <div style="color: red;">{{ form.last_name1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.last_name2.id_for_label }}">Segundo apellido:</label>
+                        {{ form.last_name2 }}
+                        {% if form.last_name2.errors %}
+                            <div style="color: red;">{{ form.last_name2.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.birth_date.id_for_label }}">Fecha de nacimiento:</label>
+                        {{ form.birth_date }}
+                        {% if form.birth_date.errors %}
+                            <div style="color: red;">{{ form.birth_date.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.baptism_date.id_for_label }}">Fecha de bautismo:</label>
+                        {{ form.baptism_date }}
+                        {% if form.baptism_date.errors %}
+                            <div style="color: red;">{{ form.baptism_date.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- CAMPO ESTADO (CORREGIDO) -->
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.estado.id_for_label }}">Estado:</label>
+                        {{ form.estado }}
+                        {% if form.estado.errors %}
+                            <div style="color: red;">{{ form.estado.errors }}</div>
+                        {% endif %}
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">
+                            ¿Es miembro (bautizado) o congregado (no bautizado)?
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha -->
+                <div>
+                    <h3>Contacto y ubicación</h3>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.phone.id_for_label }}">Teléfono:</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <div style="color: red;">{{ form.phone.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.address.id_for_label }}">Dirección:</label>
+                        {{ form.address }}
+                        {% if form.address.errors %}
+                            <div style="color: red;">{{ form.address.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.reparto.id_for_label }}">Reparto:</label>
+                        {{ form.reparto }}
+                        {% if form.reparto.errors %}
+                            <div style="color: red;">{{ form.reparto.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label for="{{ form.municipality.id_for_label }}">Municipio:</label>
+                        {{ form.municipality }}
+                        {% if form.municipality.errors %}
+                            <div style="color: red;">{{ form.municipality.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Campo de foto -->
+            <div style="margin-top: 2rem;">
+                <h3>Foto del miembro</h3>
+                <div style="margin-bottom: 1rem;">
+                    {% if object and object.photo %}
+                    <div style="margin-bottom: 1rem; text-align: center;">
+                        <img src="{{ object.photo.url }}" alt="{{ object.full_name }}" 
+                             style="max-width: 200px; border-radius: 8px; border: 2px solid #e44c65;">
+                        <p style="margin-top: 0.5rem; color: #666;">Foto actual</p>
+                    </div>
+                    {% endif %}
+                    <label for="{{ form.photo.id_for_label }}">Seleccionar foto:</label>
+                    {{ form.photo }}
+                    {% if form.photo.errors %}
+                        <div style="color: red;">{{ form.photo.errors }}</div>
+                    {% endif %}
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">
+                        Formatos permitidos: JPG, PNG. Tamaño máximo: 2MB.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Notas -->
+            <div style="margin-top: 2rem;">
+                <h3>Notas adicionales</h3>
+                <div style="margin-bottom: 1rem;">
+                    {{ form.notes }}
+                    {% if form.notes.errors %}
+                        <div style="color: red;">{{ form.notes.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Botones -->
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button type="submit" class="button primary">Guardar</button>
+                <a href="{% url 'members:list' %}" class="button">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

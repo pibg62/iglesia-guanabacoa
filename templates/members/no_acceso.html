@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Acceso Denegado{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>Acceso Restringido</h2>
+        <p>No tienes permisos para ver esta página</p>
+    </header>
+    <div class="content" style="text-align: center;">
+        <p>Esta sección es solo para líderes de la iglesia.</p>
+        <a href="{% url 'home' %}" class="button">Volver al Inicio</a>
+    </div>
+</section>
+{% endblock %}
