@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Devocionales - Primera Iglesia Bautista de Guanabacoa{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>Devocionales</h2>
+        <p>Meditaciones diarias para fortalecer tu fe</p>
+    </header>
+</section>
+
+<section class="posts">
+    {% for post in posts %}
+    <article>
+        <header>
+            <span class="date">{{ post.published_date|date:"d F Y" }}</span>
+            <h2><a href="{% url 'devocionales:detail' post.id %}">{{ post.title }}</a></h2>
+            <p>Por: {{ post.author.get_full_name|default:post.author.username }}</p>
+        </header>
+        {% if post.image %}
+        <a href="{% url 'devocionales:detail' post.id %}" class="image fit">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+        </a>
+        {% endif %}
+        <p>{{ post.content|truncatewords:40 }}</p>
+        <ul class="actions special">
+            <li><a href="{% url 'devocionales:detail' post.id %}" class="button">Leer más</a></li>
+        </ul>
+    </article>
+    {% empty %}
+    <article>
+        <header>
+            <h2>Próximamente</h2>
+        </header>
+        <p>Estaremos publicando devocionales muy pronto.</p>
+    </article>
+    {% endfor %}
+</section>
+
+<!-- Paginación -->
+{% if is_paginated %}
+<section class="main">
+    <div class="content" style="text-align: center;">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="button small">&laquo; Primero</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="button small">Anterior</a>
+        {% endif %}
+
+        <span style="margin: 0 1rem;">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="button small">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="button small">Último &raquo;</a>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -9,6 +9,7 @@ urlpatterns = [
     path("sermones/", include("sermons.urls")),
     path("eventos/", include("events.urls")),
     path("contacto/", include("contact.urls")),
+    path("devocionales/", include("devocionales.urls")),
 ]
 
 if settings.DEBUG:

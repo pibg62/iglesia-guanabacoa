@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "sermons",  # Sermones
     "events",  # Eventos
     "contact",  # Contacto
+    "devocionales",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Devocionales{% endblock %}
+
+{% block content %}
+<section class="main">
+    <header>
+        <h2>{{ post.title }}</h2>
+        <p>
+            Por: {{ post.author.get_full_name|default:post.author.username }} | 
+            {{ post.published_date|date:"d F Y" }}
+        </p>
+    </header>
+
+    <div class="content">
+        {% if post.image %}
+        <span class="image main">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" />
+        </span>
+        {% endif %}
+
+        <div style="font-size: 1.2rem; line-height: 1.8;">
+            {{ post.content|linebreaks }}
+        </div>
+    </div>
+
+    <footer>
+        <ul class="actions">
+            <li><a href="{% url 'devocionales:list' %}" class="button">&larr; Volver a devocionales</a></li>
+        </ul>
+    </footer>
+</section>
+{% endblock %}
