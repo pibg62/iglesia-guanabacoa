@@ -37,7 +37,9 @@
         <span style="background: #e44c65; color: white; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.9rem;">Congregado</span>
         {% endif %}
     </p>
-                <p style="color: #666;"><strong>Registrado:</strong> {{ member.registered_date|date:"d F Y" }}</p>
+               <p style="color: #666;">
+    <strong>Edad:</strong> {{ edad }} años
+</p>
             </div>
         </div>
         
@@ -47,8 +49,8 @@
             <!-- Tarjeta: Datos personales -->
             <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
-                    <span style="margin-right: 0.5rem;">📋</span> Datos Personales
-                </h3>
+    <i class="fas fa-user-circle" style="margin-right: 0.5rem;"></i> Datos Personales
+</h3>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="padding: 0.5rem 0; color: #666; width: 40%;"><strong>Nombre:</strong></td>
@@ -82,8 +84,8 @@
             <!-- Tarjeta: Contacto y ubicación -->
             <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
-                    <span style="margin-right: 0.5rem;">📍</span> Contacto
-                </h3>
+    <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Contacto
+</h3>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="padding: 0.5rem 0; color: #666; width: 40%;"><strong>Teléfono:</strong></td>
@@ -107,8 +109,8 @@
             <!-- Tarjeta: Información adicional -->
             <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 <h3 style="margin-top: 0; border-bottom: 2px solid #e44c65; padding-bottom: 0.5rem; color: #333;">
-                    <span style="margin-right: 0.5rem;">ℹ️</span> Información
-                </h3>
+    <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i> Información
+</h3>
                 <table style="width: 100%; border-collapse: collapse;">
                     {% if member.user %}
                     <tr>

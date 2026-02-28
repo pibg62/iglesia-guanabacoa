@@ -11,14 +11,26 @@ from django.urls import reverse_lazy
 from .models import Member
 from .forms import MemberForm
 
+from datetime import date
+from django.db.models import Q
 
-# Mixin simplificado: solo superusuarios
+
 class SuperuserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    """Mixin que requiere superusuario, pero primero redirige al login"""
+
+    # Esto es clave: URL a la que redirigir si no está autenticado
+    login_url = "/admin/login/"  # Usa el login de Django
+    redirect_field_name = "next"  # Para volver a miembros después del login
+
     def test_func(self):
         return self.request.user.is_superuser
 
     def handle_no_permission(self):
-        return render(self.request, "members/no_acceso.html")
+        if self.request.user.is_authenticated:
+            # Usuario autenticado pero no superusuario
+            return render(self.request, "members/no_acceso.html")
+        # Usuario no autenticado: redirigir al login
+        return super().handle_no_permission()
 
 
 class MemberListView(SuperuserRequiredMixin, ListView):
@@ -27,10 +39,44 @@ class MemberListView(SuperuserRequiredMixin, ListView):
     context_object_name = "members"
     paginate_by = 20
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(first_name__icontains=query)
+                | Q(last_name1__icontains=query)
+                | Q(last_name2__icontains=query)
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_count"] = Member.objects.count()
+        context["miembros_count"] = Member.objects.filter(estado="miembro").count()
+        context["congregados_count"] = Member.objects.filter(
+            estado="congregado"
+        ).count()
+        context["query"] = self.request.GET.get("q", "")
+        return context
+
 
 class MemberDetailView(SuperuserRequiredMixin, DetailView):
     model = Member
     template_name = "members/member_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        member = self.object
+        today = date.today()
+        edad = today.year - member.birth_date.year
+
+        # Ajuste por si aún no ha cumplido años este año
+        if (today.month, today.day) < (member.birth_date.month, member.birth_date.day):
+            edad -= 1
+
+        context["edad"] = edad
+        return context
 
 
 class MemberCreateView(SuperuserRequiredMixin, CreateView):

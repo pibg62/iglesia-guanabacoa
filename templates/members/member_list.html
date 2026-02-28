@@ -6,9 +6,57 @@
 <section class="main">
     <header>
         <h2>Directorio de Miembros</h2>
-        <p>Total: {{ members|length }} miembros</p>
-        <a href="{% url 'members:create' %}" class="button primary">Nuevo Miembro</a>
+        
+        <!-- Contadores uno al lado del otro -->
+        <div style="display: flex; gap: 1rem; margin: 1.5rem 0 2rem 0; flex-wrap: wrap;">
+            
+            <!-- Miembros -->
+            <span style="background: #27ae60; color: white; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.9rem; font-family: 'Source Sans Pro', Helvetica, sans-serif; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-user-check" style="font-size: 0.85rem; color: white;"></i>
+                Miembros: <strong style="color: white; font-weight: 700;">{{ miembros_count }}</strong>
+            </span>
+            
+            <!-- Congregados -->
+            <span style="background: #e44c65; color: white; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.9rem; font-family: 'Source Sans Pro', Helvetica, sans-serif; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-user-clock" style="font-size: 0.85rem; color: white;"></i>
+                Congregados: <strong style="color: white; font-weight: 700;">{{ congregados_count }}</strong>
+            </span>
+            
+            <!-- Total -->
+            <span style="background: #7f8c8d; color: white; padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.9rem; font-family: 'Source Sans Pro', Helvetica, sans-serif; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-users" style="font-size: 0.85rem; color: white;"></i>
+                Total: <strong style="color: white; font-weight: 700;">{{ total_count }}</strong>
+            </span>
+            
+        </div>
+
+        <!-- BUSCADOR -->
+        <div style="margin: 2rem 0;">
+            <form method="get" style="display: flex; gap: 0.5rem; max-width: 500px; margin: 0 auto;">
+                <input type="text" name="q" value="{{ query }}" 
+                       placeholder="Buscar por nombre o apellidos..."
+                       style="flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 30px; font-family: inherit;">
+                <button type="submit" class="button primary" 
+                        style="border-radius: 30px; padding: 0 1.5rem;">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+                {% if query %}
+                <a href="{% url 'members:list' %}" class="button" 
+                   style="border-radius: 30px; padding: 0 1.5rem;">
+                    <i class="fas fa-times"></i> Limpiar
+                </a>
+                {% endif %}
+            </form>
+        </div>
     </header>
+
+    <!-- Resultados de búsqueda -->
+    {% if query %}
+    <p style="margin-bottom: 1rem; color: #666;">
+        Mostrando resultados para: <strong>"{{ query }}"</strong>
+    </p>
+    {% endif %}
+    
     
     <div class="content">
         <table style="width:100%; border-collapse: collapse;">
